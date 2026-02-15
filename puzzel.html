@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Surprise Puzzle 💖</title>
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+#puzzle {
+    width: 300px;
+    height: 300px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin-top: 20px;
+}
+
+.tile {
+    width: 100px;
+    height: 100px;
+    background-image: url("puzzle.jpg");
+    background-size: 300px 300px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.selected {
+    outline: 3px solid hotpink;
+}
+
+#win {
+    display: none;
+    margin-top: 30px;
+    font-size: 28px;
+    color: hotpink;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px hotpink; }
+    to { text-shadow: 0 0 25px deeppink; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧩 Complete the puzzle</h1>
+<p>Finish it to unlock my heart 💖</p>
+
+<div id="puzzle"></div>
+
+<div id="win">🎉 Yayyy 💖 You win my heart! 🎉</div>
+
+<script>
+const puzzle = document.getElementById("puzzle");
+const win = document.getElementById("win");
+let tiles = [];
+let first = null;
+
+function startPuzzle() {
+    tiles = [...Array(9).keys()];
+    tiles.sort(() => Math.random() - 0.5);
+    puzzle.innerHTML = "";
+
+    tiles.forEach(i => {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.dataset.index = i;
+
+        const x = (i % 3) * -100;
+        const y = Math.floor(i / 3) * -100;
+        tile.style.backgroundPosition = `${x}px ${y}px`;
+
+        tile.onclick = () => select(tile);
+        puzzle.appendChild(tile);
+    });
+}
+
+function select(tile) {
+    if (!first) {
+        first = tile;
+        tile.classList.add("selected");
+    } else {
+        swap(first, tile);
+        first.classList.remove("selected");
+        first = null;
+        checkWin();
+    }
+}
+
+function swap(a, b) {
+    let temp = a.style.backgroundPosition;
+    a.style.backgroundPosition = b.style.backgroundPosition;
+    b.style.backgroundPosition = temp;
+
+    let tempIndex = a.dataset.index;
+    a.dataset.index = b.dataset.index;
+    b.dataset.index = tempIndex;
+}
+
+function checkWin() {
+    const all = document.querySelectorAll(".tile");
+    let correct = true;
+
+    all.forEach((tile, i) => {
+        if (parseInt(tile.dataset.index) !== i) correct = false;
+    });
+
+    if (correct) {
+        win.style.display = "block";
+    }
+}
+
+startPuzzle();
+</script>
+
+</body>
+</html>
