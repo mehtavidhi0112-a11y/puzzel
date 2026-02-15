@@ -12,25 +12,27 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column;
 }
 
 h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 #puzzle {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
     width: 300px;
     height: 300px;
+    gap: 2px;
 }
 
 .tile {
+    width: 100px;          /* ✅ FIX */
+    height: 100px;         /* ✅ FIX */
     background-image: url("puzzle.jpg");
     background-size: 300px 300px;
     cursor: pointer;
@@ -38,7 +40,7 @@ h2 {
 
 #win {
     display: none;
-    margin-top: 30px;
+    margin-top: 25px;
     font-size: 24px;
     color: #ffb6c1;
     text-align: center;
