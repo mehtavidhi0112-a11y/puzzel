@@ -1,2 +1,2 @@
-# puzzel
-puzzel
+# puzzle
+puzzle
